@@ -1,0 +1,5 @@
+Snake game with HTML/CSS/JavaScript
+
+Improvement Ideas
+-random snake spawn
+	snake.js -> snakeX & snakeY * random number
