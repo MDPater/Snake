@@ -1,3 +1,6 @@
+var score = 0;
+var highscore;
+
 //board
 var blockSize = 25;
 var rows = 20;
@@ -21,6 +24,7 @@ var foodY;
 var gameOver = false;
 
 window.onload = function(){
+    highscore = document.getElementById("Highscore");
     board = document.getElementById("board");
     board.height = rows * blockSize;
     board.width = columns * blockSize;
@@ -48,6 +52,8 @@ function update(){
     //check if snake eats food
     if(snakeX  == foodX && snakeY == foodY){
         snakeBody.push([foodX,foodY]);
+        score++;
+        highscore.textContent=score;
         placeFood();
     }
 
@@ -70,7 +76,7 @@ function update(){
 
     //game over conditions
     //snake out of bounds
-    if(snakeX < 0 || snakeX > columns * blockSize || snakeY < 0 || snakeY > rows * blockSize){
+    if(snakeX < 0 || snakeX > columns * blockSize -1 || snakeY < 0 || snakeY > rows * blockSize -1){
         gameOver = true;
         alert("Game Over");
     }
