@@ -1,5 +1,6 @@
 var score = 0;
 var highscore;
+var gameOver = false;
 
 //board
 var blockSize = 25;
@@ -21,8 +22,6 @@ var snakeBody = [];
 var foodX;
 var foodY;
 
-var gameOver = false;
-
 window.onload = function(){
     highscore = document.getElementById("Highscore");
     board = document.getElementById("board");
@@ -32,7 +31,7 @@ window.onload = function(){
 
     placeFood();
     document.addEventListener("keyup", changeDirection);
-    setInterval(update, 1000/10); //run update function 10 times a second
+    setInterval(update, 1000/5); //run update function 10 times a second
 }
 
 function update(){
@@ -78,14 +77,14 @@ function update(){
     //snake out of bounds
     if(snakeX < 0 || snakeX > columns * blockSize -1 || snakeY < 0 || snakeY > rows * blockSize -1){
         gameOver = true;
-        alert("Game Over");
+        alert("Game Over \n Score: " +score);
     }
 
     //snake eat tail
     for (let i = 0; i < snakeBody.length; i++) {
         if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
             gameOver = true;
-            alert("Game Over");
+            alert("Game Over \n Score: " +score);
         }
     }
 }
