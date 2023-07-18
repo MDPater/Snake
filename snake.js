@@ -32,7 +32,7 @@ window.onload = function(){
 
     setHighscore();    
     placeFood();
-    document.addEventListener("keyup", changeDirection);
+    document.addEventListener("keydown", changeDirection);
     setInterval(update, 1000/5); //run update function 5 times a second
 }
 
