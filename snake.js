@@ -1,5 +1,6 @@
 var score = 0;
 var highscore;
+var savedScore = localStorage.getItem("savedScore");
 var gameOver = false;
 
 //board
@@ -9,7 +10,7 @@ var columns = 20;
 var board;
 var context;
 
-//snake head
+//snake
 var snakeX = blockSize * 5;
 var snakeY = blockSize * 5;
 
@@ -23,15 +24,16 @@ var foodX;
 var foodY;
 
 window.onload = function(){
-    highscore = document.getElementById("Highscore");
+    highscore = document.getElementById("Score");
     board = document.getElementById("board");
     board.height = rows * blockSize;
     board.width = columns * blockSize;
     context = board.getContext("2d"); //used to draw on board
 
+    setHighscore();    
     placeFood();
     document.addEventListener("keyup", changeDirection);
-    setInterval(update, 1000/5); //run update function 10 times a second
+    setInterval(update, 1000/5); //run update function 5 times a second
 }
 
 function update(){
@@ -48,7 +50,7 @@ function update(){
     context.fillStyle="Red";
     context.fillRect(foodX, foodY, blockSize, blockSize);
 
-    //check if snake eats food
+    //check if snake eats food & set Score
     if(snakeX  == foodX && snakeY == foodY){
         snakeBody.push([foodX,foodY]);
         score++;
@@ -78,6 +80,7 @@ function update(){
     if(snakeX < 0 || snakeX > columns * blockSize -1 || snakeY < 0 || snakeY > rows * blockSize -1){
         gameOver = true;
         alert("Game Over \n Score: " +score);
+        saveHighscore();
     }
 
     //snake eat tail
@@ -85,6 +88,7 @@ function update(){
         if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
             gameOver = true;
             alert("Game Over \n Score: " +score);
+            saveHighscore();
         }
     }
 }
@@ -112,4 +116,23 @@ function placeFood(){
     //random number for X&Y coordinates
     foodX = Math.floor(Math.random() * columns) * blockSize;
     foodY = Math.floor(Math.random() * rows) * blockSize;
+}
+
+function setHighscore(){
+    //set html header highscore with localitem value
+    var storedValue = document.getElementById("Highscore");
+    storedValue.textContent = localStorage.getItem("savedScore");
+}
+
+function saveHighscore() {
+    if (highscore !== null) {
+        if(score > savedScore){
+            localStorage.setItem("savedScore", score);
+        }
+    }else{
+        localStorage.setItem("savedScore", score);
+    }
+    console.log(savedScore);
+
+    setHighscore();
 }
